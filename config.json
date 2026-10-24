@@ -1,0 +1,7 @@
+{
+  "detection_region": null,
+  "click_position": null,
+  "threshold": 0.9,
+  "check_interval_ms": 300,
+  "template_path": "assets/accept_template.png"
+}
