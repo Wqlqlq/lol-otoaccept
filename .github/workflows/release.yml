@@ -1,16 +1,22 @@
 name: Build Windows exe and release
 
 # Builds LoLAutoAccept.exe on Windows, checks that it starts, and publishes it
-# as a GitHub release. Runs when the VERSION file changes (release "v<VERSION>",
-# the tag is created automatically) or when a tag such as v1.0.0 is pushed.
+# as a GitHub release. Runs when VERSION changes (release "v<VERSION>", the tag
+# is created automatically), when the release notes change (the current
+# release is refreshed), or when a tag such as v1.0.0 is pushed.
 on:
   push:
     branches: ["**"]
-    paths: ["VERSION"]  # path filters do not apply to tag pushes
+    paths: ["VERSION", ".github/release-notes.md"]  # path filters do not apply to tag pushes
     tags: ["v*"]
 
 permissions:
   contents: write
+
+# Two runs for the same release must not race to create it.
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   build-and-release:

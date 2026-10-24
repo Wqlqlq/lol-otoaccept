@@ -1,3 +1,5 @@
+**Türkçe** | [English](README.en.md)
+
 # LoL Auto Accept
 
 League of Legends istemcisinde maç bulunduğunda çıkan **ACCEPT / KABUL ET** butonunu ekran
@@ -230,6 +232,9 @@ GitHub sitesinde dosyayı açıp kalem simgesiyle düzenleyerek de yapabilirsin.
 `.github/workflows/release.yml` exe'yi Windows'ta derler, açıldığını test eder ve `v1.0.1`
 adıyla GitHub release olarak yayınlar. `v1.0.1` gibi bir tag göndermek de aynı işi yapar.
 
+Release açıklaması `.github/release-notes.md` dosyasından gelir. Bu dosyayı değiştirmek mevcut
+sürümün release sayfasını günceller (exe yeniden derlenir).
+
 ---
 
 ## Sorun giderme
@@ -238,8 +243,9 @@ adıyla GitHub release olarak yayınlar. `v1.0.1` gibi bir tag göndermek de ayn
   Area'nın üstünde başka bir pencere olmamalı, **bu uygulamanın penceresi de dahil**.
   Confidence düşükse threshold'u biraz düşür veya template'i yeniden al.
 - **Tıklama ya da F8 oyun açıkken çalışmıyor:** LoL istemcisi yönetici olarak çalışıyorsa
-  Windows, normal yetkideki programların ona tıklama göndermesini engeller. Bu durumda
-  Komut İstemi'ni **Yönetici olarak** açıp `python main.py` ile başlat.
+  Windows, normal yetkideki programların ona tıklama göndermesini engeller. Bu durumda exe'yi
+  **Yönetici olarak** çalıştır ya da Komut İstemi'ni yönetici olarak açıp `python main.py` ile
+  başlat.
 - **"PyAutoGUI fail-safe" hatası:** Tıklama anında mouse ekranın bir köşesindeyse PyAutoGUI
   güvenlik için işlemi durdurur. Bu bir acil durdurma özelliğidir. İzlemeyi yeniden başlat.
 - **Koordinatlar kayık:** Windows ekran ölçeklendirmesi (%125, %150) desteklenir, uygulama
@@ -264,9 +270,12 @@ lol-otoaccept/
 ├── requirements.txt
 ├── build_exe.bat        # PyInstaller ile LoLAutoAccept.exe derler
 ├── VERSION              # Sürüm numarası; değişince yeni release yayınlanır
-├── README.md
-├── .github/workflows/
-│   └── release.yml      # Tag gönderilince exe'yi derleyip release yayınlar
+├── README.md            # Türkçe README
+├── README.en.md         # İngilizce README
+├── .github/
+│   ├── release-notes.md # Release açıklaması (Türkçe + İngilizce)
+│   └── workflows/
+│       └── release.yml  # Exe'yi derleyip release yayınlar
 └── assets/
     └── accept_template.png   # "Capture Template" ile oluşturulur
 ```
