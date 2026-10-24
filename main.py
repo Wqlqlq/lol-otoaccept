@@ -9,6 +9,7 @@ memory, process and API are never touched.
 from __future__ import annotations
 
 import queue
+import sys
 import tkinter as tk
 from collections.abc import Callable
 from pathlib import Path
@@ -46,8 +47,20 @@ from hotkeys import GlobalHotkeys
 from logger import setup_event_logger
 from screen_selector import RegionSelection, ScreenSelector, enable_dpi_awareness
 
+
+def application_dir() -> Path:
+    """Folder holding config.json, logs.txt and assets/.
+
+    For the PyInstaller .exe this is the folder of the .exe itself: __file__
+    points into a temporary extraction folder that is deleted on exit.
+    """
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
+
 APP_TITLE = "LoL Auto Accept"
-APP_DIR = Path(__file__).resolve().parent
+APP_DIR = application_dir()
 CONFIG_PATH = APP_DIR / "config.json"
 LOG_PATH = APP_DIR / "logs.txt"
 

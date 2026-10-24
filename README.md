@@ -1,3 +1,5 @@
+**Türkçe** | [English](README.en.md)
+
 # LoL Auto Accept
 
 League of Legends istemcisinde maç bulunduğunda çıkan **ACCEPT / KABUL ET** butonunu ekran
@@ -12,6 +14,21 @@ Uygulama yalnızca iki şey yapar:
 Oyunun dosyalarına, belleğine, API'sine (LCU) veya process'ine **hiçbir şekilde** dokunmaz.
 
 ---
+
+## En kolay yol: hazır exe (Python gerekmez)
+
+1. [Releases](https://github.com/Wqlqlq/lol-otoaccept/releases/latest) sayfasından
+   **`LoLAutoAccept.exe`** dosyasını indir.
+2. Exe'yi kendine ait bir klasöre koy (ör. `Belgeler\LoLAutoAccept`). `config.json`,
+   `logs.txt` ve `assets\accept_template.png` exe'nin yanına oluşturulur.
+3. Çift tıklayarak aç ve aşağıdaki [Kullanım](#kullanım) adımlarını izle.
+
+"Windows kişisel bilgisayarınızı korudu" uyarısı çıkarsa **Ek bilgi** → **Yine de çalıştır**
+de. Exe imzalı olmadığı için bu uyarı normaldir. Klavye kısayolu dinleyip mouse tıklaması
+yaptığı için bazı antivirüsler yanlış alarm verebilir. Exe, bu depodaki koddan GitHub Actions
+ile derlenir ve release sayfasında SHA256 değeri yazar.
+
+Kaynak koddan çalıştırmak istersen aşağıdaki adımları izle.
 
 ## Gereksinimler
 
@@ -198,14 +215,37 @@ Olaylar `logs.txt` dosyasına yazılır:
 
 ---
 
+## Exe'yi kendin derlemek
+
+Windows'ta proje klasöründe şunu çalıştır:
+
+```bat
+build_exe.bat
+```
+
+Sonuç `dist\LoLAutoAccept.exe` olarak oluşur (PyInstaller, tek dosya, konsol penceresi yok).
+
+### Yeni sürüm yayınlamak
+
+`VERSION` dosyasındaki numarayı artır (ör. `1.0.0` → `1.0.1`) ve değişikliği gönder. Bunu
+GitHub sitesinde dosyayı açıp kalem simgesiyle düzenleyerek de yapabilirsin.
+`.github/workflows/release.yml` exe'yi Windows'ta derler, açıldığını test eder ve `v1.0.1`
+adıyla GitHub release olarak yayınlar. `v1.0.1` gibi bir tag göndermek de aynı işi yapar.
+
+Release açıklaması `.github/release-notes.md` dosyasından gelir. Bu dosyayı değiştirmek mevcut
+sürümün release sayfasını günceller (exe yeniden derlenir).
+
+---
+
 ## Sorun giderme
 
 - **Buton görünürken algılanmıyor:** Preview'da butonun göründüğünü kontrol et. Detection
   Area'nın üstünde başka bir pencere olmamalı, **bu uygulamanın penceresi de dahil**.
   Confidence düşükse threshold'u biraz düşür veya template'i yeniden al.
 - **Tıklama ya da F8 oyun açıkken çalışmıyor:** LoL istemcisi yönetici olarak çalışıyorsa
-  Windows, normal yetkideki programların ona tıklama göndermesini engeller. Bu durumda
-  Komut İstemi'ni **Yönetici olarak** açıp `python main.py` ile başlat.
+  Windows, normal yetkideki programların ona tıklama göndermesini engeller. Bu durumda exe'yi
+  **Yönetici olarak** çalıştır ya da Komut İstemi'ni yönetici olarak açıp `python main.py` ile
+  başlat.
 - **"PyAutoGUI fail-safe" hatası:** Tıklama anında mouse ekranın bir köşesindeyse PyAutoGUI
   güvenlik için işlemi durdurur. Bu bir acil durdurma özelliğidir. İzlemeyi yeniden başlat.
 - **Koordinatlar kayık:** Windows ekran ölçeklendirmesi (%125, %150) desteklenir, uygulama
@@ -228,7 +268,14 @@ lol-otoaccept/
 ├── logger.py            # logs.txt loglama
 ├── config.json          # Kaydedilmiş ayarlar
 ├── requirements.txt
-├── README.md
+├── build_exe.bat        # PyInstaller ile LoLAutoAccept.exe derler
+├── VERSION              # Sürüm numarası; değişince yeni release yayınlanır
+├── README.md            # Türkçe README
+├── README.en.md         # İngilizce README
+├── .github/
+│   ├── release-notes.md # Release açıklaması (Türkçe + İngilizce)
+│   └── workflows/
+│       └── release.yml  # Exe'yi derleyip release yayınlar
 └── assets/
     └── accept_template.png   # "Capture Template" ile oluşturulur
 ```
