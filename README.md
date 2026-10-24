@@ -223,13 +223,12 @@ build_exe.bat
 
 Sonuç `dist\LoLAutoAccept.exe` olarak oluşur (PyInstaller, tek dosya, konsol penceresi yok).
 
-Yeni bir release yayınlamak için `v1.0.1` gibi bir tag gönder. `.github/workflows/release.yml`
-exe'yi Windows'ta derler, açıldığını test eder ve GitHub release olarak yayınlar:
+### Yeni sürüm yayınlamak
 
-```bat
-git tag v1.0.1
-git push origin v1.0.1
-```
+`VERSION` dosyasındaki numarayı artır (ör. `1.0.0` → `1.0.1`) ve değişikliği gönder. Bunu
+GitHub sitesinde dosyayı açıp kalem simgesiyle düzenleyerek de yapabilirsin.
+`.github/workflows/release.yml` exe'yi Windows'ta derler, açıldığını test eder ve `v1.0.1`
+adıyla GitHub release olarak yayınlar. `v1.0.1` gibi bir tag göndermek de aynı işi yapar.
 
 ---
 
@@ -264,6 +263,7 @@ lol-otoaccept/
 ├── config.json          # Kaydedilmiş ayarlar
 ├── requirements.txt
 ├── build_exe.bat        # PyInstaller ile LoLAutoAccept.exe derler
+├── VERSION              # Sürüm numarası; değişince yeni release yayınlanır
 ├── README.md
 ├── .github/workflows/
 │   └── release.yml      # Tag gönderilince exe'yi derleyip release yayınlar

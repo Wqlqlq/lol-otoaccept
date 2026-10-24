@@ -1,9 +1,12 @@
 name: Build Windows exe and release
 
-# Pushing a tag such as v1.0.0 builds LoLAutoAccept.exe on Windows,
-# checks that it starts, and publishes it as a GitHub release.
+# Builds LoLAutoAccept.exe on Windows, checks that it starts, and publishes it
+# as a GitHub release. Runs when the VERSION file changes (release "v<VERSION>",
+# the tag is created automatically) or when a tag such as v1.0.0 is pushed.
 on:
   push:
+    branches: ["**"]
+    paths: ["VERSION"]  # path filters do not apply to tag pushes
     tags: ["v*"]
 
 permissions:
@@ -14,6 +17,18 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v5
+
+      - name: Determine release tag
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF_TYPE -eq "tag") {
+            $tag = $env:GITHUB_REF_NAME
+          } else {
+            $tag = "v" + (Get-Content VERSION -Raw).Trim()
+          }
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "Invalid release tag '$tag'. Use a version like 1.0.0." }
+          "TAG=$tag" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Host "Release tag: $tag"
 
       - uses: actions/setup-python@v6
         with:
@@ -53,7 +68,6 @@ jobs:
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
         run: |
           $hash = (Get-FileHash dist\LoLAutoAccept.exe -Algorithm SHA256).Hash
           $notes = (Get-Content .github\release-notes.md -Raw) + "`n`nSHA256 (LoLAutoAccept.exe): ``$hash``"
@@ -62,8 +76,10 @@ jobs:
           gh release view $env:TAG *> $null
           if ($LASTEXITCODE -eq 0) {
             gh release upload $env:TAG dist\LoLAutoAccept.exe --clobber
+            if ($LASTEXITCODE -ne 0) { throw "Uploading the exe failed." }
             gh release edit $env:TAG --notes-file release-notes.md
           } else {
-            gh release create $env:TAG dist\LoLAutoAccept.exe --title "LoL Auto Accept $env:TAG" --notes-file release-notes.md
+            gh release create $env:TAG dist\LoLAutoAccept.exe --target $env:GITHUB_SHA `
+              --title "LoL Auto Accept $env:TAG" --notes-file release-notes.md
           }
           if ($LASTEXITCODE -ne 0) { throw "Publishing the release failed." }
