@@ -24,7 +24,7 @@ değeriyle indirdiğin dosyayı doğrulayabilirsin.
 - **F8:** Monitoring aç/kapat (oyun penceresi açıkken de çalışır)
 - **ESC / sağ tık:** Seçim ekranından çık
 
-Ayrıntılı kullanım ve sorun giderme için depodaki [README](https://github.com/Wqlqlq/lol-otoaccept/blob/claude/gallant-pasteur-6ueve7/README.md)'ye bak.
+Ayrıntılı kullanım ve sorun giderme için depodaki [README](https://github.com/Wqlqlq/lol-otoaccept/blob/main/README.md)'ye bak.
 Program yalnızca ekran görüntüsü alır ve normal mouse tıklaması yapar; oyunun dosyalarına,
 belleğine, API'sine veya process'ine dokunmaz.
 
@@ -57,7 +57,7 @@ can verify the downloaded file with the SHA256 hash at the bottom.
 - **F8:** Start / stop monitoring (works while the game window is open)
 - **ESC / right-click:** Leave the selection screen
 
-See the [README](https://github.com/Wqlqlq/lol-otoaccept/blob/claude/gallant-pasteur-6ueve7/README.en.md)
+See the [README](https://github.com/Wqlqlq/lol-otoaccept/blob/main/README.en.md)
 in the repository for detailed usage and troubleshooting.
 The app only takes screenshots and performs normal mouse clicks; it never touches the game's
 files, memory, API or process.
