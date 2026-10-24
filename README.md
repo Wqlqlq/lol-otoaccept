@@ -13,6 +13,21 @@ Oyunun dosyalarına, belleğine, API'sine (LCU) veya process'ine **hiçbir şeki
 
 ---
 
+## En kolay yol: hazır exe (Python gerekmez)
+
+1. [Releases](https://github.com/Wqlqlq/lol-otoaccept/releases/latest) sayfasından
+   **`LoLAutoAccept.exe`** dosyasını indir.
+2. Exe'yi kendine ait bir klasöre koy (ör. `Belgeler\LoLAutoAccept`). `config.json`,
+   `logs.txt` ve `assets\accept_template.png` exe'nin yanına oluşturulur.
+3. Çift tıklayarak aç ve aşağıdaki [Kullanım](#kullanım) adımlarını izle.
+
+"Windows kişisel bilgisayarınızı korudu" uyarısı çıkarsa **Ek bilgi** → **Yine de çalıştır**
+de. Exe imzalı olmadığı için bu uyarı normaldir. Klavye kısayolu dinleyip mouse tıklaması
+yaptığı için bazı antivirüsler yanlış alarm verebilir. Exe, bu depodaki koddan GitHub Actions
+ile derlenir ve release sayfasında SHA256 değeri yazar.
+
+Kaynak koddan çalıştırmak istersen aşağıdaki adımları izle.
+
 ## Gereksinimler
 
 - Windows 10 veya Windows 11
@@ -198,6 +213,26 @@ Olaylar `logs.txt` dosyasına yazılır:
 
 ---
 
+## Exe'yi kendin derlemek
+
+Windows'ta proje klasöründe şunu çalıştır:
+
+```bat
+build_exe.bat
+```
+
+Sonuç `dist\LoLAutoAccept.exe` olarak oluşur (PyInstaller, tek dosya, konsol penceresi yok).
+
+Yeni bir release yayınlamak için `v1.0.1` gibi bir tag gönder. `.github/workflows/release.yml`
+exe'yi Windows'ta derler, açıldığını test eder ve GitHub release olarak yayınlar:
+
+```bat
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+---
+
 ## Sorun giderme
 
 - **Buton görünürken algılanmıyor:** Preview'da butonun göründüğünü kontrol et. Detection
@@ -228,7 +263,10 @@ lol-otoaccept/
 ├── logger.py            # logs.txt loglama
 ├── config.json          # Kaydedilmiş ayarlar
 ├── requirements.txt
+├── build_exe.bat        # PyInstaller ile LoLAutoAccept.exe derler
 ├── README.md
+├── .github/workflows/
+│   └── release.yml      # Tag gönderilince exe'yi derleyip release yayınlar
 └── assets/
     └── accept_template.png   # "Capture Template" ile oluşturulur
 ```
